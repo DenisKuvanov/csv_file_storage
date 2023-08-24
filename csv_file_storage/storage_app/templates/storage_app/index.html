@@ -1,0 +1,31 @@
+{% extends 'storage_app/base.html' %}
+{% load mytag %}
+
+{% block content %}
+<ul class="list-articles">
+  {% if not files %}
+  <li>No files yet</li>
+  {% else %}
+  {% for file in files %}
+  <li>
+    <div class="article-panel">
+      <p class="first">Загрузил: {{file.owner.username}}</p>
+      <p class="last">Дата загрузки: {{file.created_at|date:"d-m-Y H:i:s"}}</p>
+    </div>
+    <h2>{{file}}</h2>
+    {% get_headers path=file.file.path as headers %}
+    <ul>
+      {% for head in headers|slice:"6" %}
+      <li>{{ head }}</li>
+      {% endfor %}
+      {% if headers|length > 6 %}
+      <li>...</li>
+      {% endif %}
+    </ul>
+    <div class="clear"></div>
+    <p class="link-read-post"><a href="{{ file.get_absolute_url }}">Посмотреть файл</a></p>
+  </li>
+  {% endfor %}
+  {% endif %}
+</ul>
+{% endblock %}

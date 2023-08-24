@@ -1,0 +1,15 @@
+{% extends 'storage_app/base.html' %}
+
+{% block content %}
+<div class="center">
+  <form method="post" class="card">
+    {% csrf_token %}
+    <h2>Удаление файла</h2>
+    <p>Вы уверены, что хотите удалить файл "{{ file }}"?</p>
+    <p class="link-read-post">
+      <input type="submit" value="Удалить">
+      <a href="{{ file.get_absolute_url }}">Отмена</a>
+    </p>
+  </form>
+</div>
+{% endblock %}

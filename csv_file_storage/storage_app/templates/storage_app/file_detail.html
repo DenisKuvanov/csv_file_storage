@@ -1,0 +1,52 @@
+{% extends 'storage_app/base.html' %}
+{% load mytag %}
+{% load static %}
+
+
+{% block style %}
+<style>
+  .price-list {
+      border: 1px solid gray;
+      border-collapse: collapse;
+  }
+
+  .price-list td, .price-list th {
+      border: 1px solid gray;
+      padding: 5px;
+  }
+
+  .price-list thead {
+      background-color: lightgray;
+  }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<h1>{{ file }}</h1>
+{% if user.is_authenticated %}
+{% if file.owner == user %}
+<p class="link-read-post"><a href="{% url 'storage_app:delete_file' file.id %}">Удалить файл</a></p>
+{% endif %}
+{% endif %}
+{% get_headers path=file.file.path as headers %}
+<table class="price-list">
+  <thead>
+  <tr>
+    {% for head in headers %}
+    <th>{{ head }}</th>
+    {% endfor %}
+  </tr>
+  </thead>
+  <tbody>
+  {% for row in page_obj.object_list %}
+  <tr>
+    {% for elem in row %}
+    <td>{{ elem }}</td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
